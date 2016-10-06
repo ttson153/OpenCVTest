@@ -19,6 +19,31 @@ android {
             jniLibs.srcDir "src/main/libs"
         }
     }
+
+    productFlavors {
+        x86 {
+            ndk {
+                abiFilter "x86"
+            }
+        }
+        armv7 {
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
+        }
+        arm {
+            ndk {
+                abiFilter "armeabi"
+            }
+        }
+        mips {
+            ndk {
+                abiFilter "mips"
+            }
+        }
+        fat
+    }
+
     buildTypes {
         release {
             minifyEnabled false

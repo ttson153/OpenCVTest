@@ -76,7 +76,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 
                     try {
                         // load cascade file from application resources
-                        InputStream is = getResources().openRawResource(R.raw.nose);
+                        InputStream is = getResources().openRawResource(R.raw.lbpcascade_frontalface);
                         File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
                         mCascadeFile = new File(cascadeDir, "lbpcascade_frontalface.xml");
                         FileOutputStream os = new FileOutputStream(mCascadeFile);
@@ -102,7 +102,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 
                         InputStream is_profile = getResources().openRawResource(R.raw.haarcascade_eye);
                         File cascadeDir_profile = getDir("cascade", Context.MODE_PRIVATE);
-                        mCascadeFile_profile = new File(cascadeDir_profile, "lbpcascade_profileface.xml");
+                        mCascadeFile_profile = new File(cascadeDir_profile, "haarcascade_eye.xml");
                         FileOutputStream os_profile = new FileOutputStream(mCascadeFile_profile);
 
                         byte[] buffer_profile = new byte[4096];
@@ -244,13 +244,12 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
         if (mDetectorType == JAVA_DETECTOR) {
             start = System.currentTimeMillis();
             if (mJavaDetector != null)
-                mJavaDetector.detectMultiScale(mGray, faces, 1.5, 4, 2, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
-                        new Size(70, 70), new Size());
-            detectTime = System.currentTimeMillis() - start;
+                mJavaDetector.detectMultiScale(mGray, faces, 1.1, 2, 2, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
+                        new Size(mAbsoluteFaceSize, mAbsoluteFaceSize), new Size());
             if (mJavaDetectorProfile != null)
-                mJavaDetectorProfile.detectMultiScale(mGray, faces_profile, 1.5, 4, 2,
+                mJavaDetectorProfile.detectMultiScale(mGray, faces_profile, 1.5, 3, 2,
                         new Size(50, 50), new Size());
-            //detectTime = System.currentTimeMillis() - start;
+            detectTime = System.currentTimeMillis() - start;
         } else if (mDetectorType == NATIVE_DETECTOR) {
             if (mNativeDetector != null)
                 mNativeDetector.detect(mGray, faces);
